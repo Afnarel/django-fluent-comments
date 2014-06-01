@@ -75,9 +75,9 @@ def post_comment_ajax(request, using=None):
     # If there are errors or if we requested a preview show the comment
     if preview:
         comment = form.get_comment_object() if not form.errors else None
-        return _ajax_result(request, form, "preview", comment, object_id=object_pk)
+        return _ajax_result(request, form, "preview", ctype, comment, object_id=object_pk)
     if form.errors:
-        return _ajax_result(request, form, "post", object_id=object_pk)
+        return _ajax_result(request, form, "post", ctype, object_id=object_pk)
 
 
     # Otherwise create the comment
@@ -105,10 +105,10 @@ def post_comment_ajax(request, using=None):
         request = request
     )
 
-    return _ajax_result(request, form, "post", comment, object_id=object_pk)
+    return _ajax_result(request, form, "post", ctype, comment, object_id=object_pk)
 
 
-def _ajax_result(request, form, action, comment=None, object_id=None):
+def _ajax_result(request, form, action, ctype, comment=None, object_id=None):
     # Based on django-ajaxcomments, BSD licensed.
     # Copyright (c) 2009 Brandon Konkle and individual contributors.
     #
@@ -139,7 +139,10 @@ def _ajax_result(request, form, action, comment=None, object_id=None):
             'preview': (action == 'preview'),
             'USE_THREADEDCOMMENTS': appsettings.USE_THREADEDCOMMENTS,
         }
-        comment_html = render_to_string('comments/comment.html', context, context_instance=RequestContext(request))
+
+        path_to_template = ctype.replace('.', '/')
+        comment_html = render_to_string('comments/%s/comment.html' %
+            path_to_template, context, context_instance=RequestContext(request))
 
         json_return.update({
             'html': comment_html,
