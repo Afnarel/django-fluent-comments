@@ -27,6 +27,7 @@ class FluentComment(Comment):
     objects = FluentCommentManager()
 
     class Meta:
+        app_label = 'fluent_comments'
         proxy = True
 
 
