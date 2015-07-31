@@ -57,7 +57,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
 
     def object_link(self, comment):
         object = comment.content_object
-        title = unicode(object)
+        title = str(object)
         return u'<a href="{0}">{1}</a>'.format(escape(object.get_absolute_url()), escape(title))
 
     object_link.short_description = _("Page")
@@ -68,7 +68,7 @@ class FluentCommentsAdmin(CommentsAdminBase):
             return comment.user_name
         elif comment.user_id:
             # Can't do much else here, User model might be custom.
-            return unicode(comment.user)
+            return str(comment.user)
         else:
             return None
 
