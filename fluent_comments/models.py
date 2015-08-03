@@ -6,7 +6,7 @@ from django_comments.managers import CommentManager
 if VERSION < (1, 8):
     from django.contrib.contenttypes.generic import GenericRelation
 else:
-    from django.contrib.contenttypes.generic.fields import GenericRelation
+    from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.dispatch import receiver
