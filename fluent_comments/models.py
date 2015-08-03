@@ -1,3 +1,4 @@
+from django import VERSION
 from django.conf import settings
 import django_comments as comments
 from django_comments import Comment
